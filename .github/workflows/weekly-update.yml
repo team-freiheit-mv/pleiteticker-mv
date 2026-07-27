@@ -1,0 +1,53 @@
+name: Wöchentliches Pleiteticker-Update
+
+on:
+  schedule:
+    - cron: '0 18 * * 5'   # Freitag 18:00 UTC = 20:00 Uhr (MESZ, Sommerzeit)
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Testlauf ohne Schreiben/Commit (nur Zaehlung pruefen)'
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: pleiteticker-update
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Repo auschecken
+        uses: actions/checkout@v4
+
+      - name: Node einrichten
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Playwright + Chromium installieren
+        run: |
+          npm install playwright@1.47.2
+          npx playwright install --with-deps chromium
+
+      - name: Daten aktualisieren
+        env:
+          DRY_RUN: ${{ inputs.dry_run && '1' || '' }}
+        run: node update.mjs
+
+      - name: Aenderungen committen und pushen
+        if: ${{ !inputs.dry_run }}
+        run: |
+          git config user.name "Pleiteticker Bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "Keine Aenderungen"
+          else
+            git commit -m "Update Insolvenzdaten $(date -u +%G-W%V)"
+            git push
+          fi
