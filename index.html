@@ -1,4 +1,4 @@
-<!-- redeploy-trigger: 31.07.2026 -->
+<!-- redeploy-trigger: 31.07.2026 ci-logo-cta -->
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -104,8 +104,8 @@ a.textlink:hover { border-color:var(--text); }
 
 /* ---------- Kopf ---------- */
 .kopf { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:1rem clamp(1rem,3vw,2rem); }
-.kopf-id { display:flex; flex-direction:column; gap:0.55rem; }
-.kopf .wortmarke { font-size:1rem; align-self:flex-start; }
+.kopf-id { display:flex; align-items:center; gap:clamp(0.75rem,2.5vw,1.1rem); }
+.kopf-logo { height:30px; width:auto; display:block; flex:0 0 auto; }
 .kopf-titel { font-size:1.15rem; font-weight:900; text-transform:uppercase; letter-spacing:0.02em; line-height:1; }
 .kopf-sub { font-size:0.8rem; color:var(--meta); margin-top:0.25rem; }
 
@@ -178,7 +178,7 @@ td.wert { font-weight:700; white-space:nowrap; }
 <header class="weiss">
 <div class="wrap kopf" style="padding-top:clamp(1.5rem,4vw,2.25rem);padding-bottom:clamp(1.5rem,4vw,2.25rem);">
 <div class="kopf-id">
-<span class="wortmarke">Team Freiheit</span>
+<img src="logo.png" alt="Team Freiheit" class="kopf-logo">
 <div>
 <div class="kopf-titel">Pleiteticker MV</div>
 <div class="kopf-sub">Insolvenzmonitor Mecklenburg-Vorpommern</div>
@@ -205,8 +205,8 @@ td.wert { font-weight:700; white-space:nowrap; }
 <div class="claim">Eröffnete Insolvenzverfahren in MV seit Jahresbeginn</div>
 <div class="meta" style="margin-left:auto;margin-right:auto;">Stand: <span id="standDatum">–</span> · Nur Eröffnungen · Wöchentlich aktualisiert · Quelle: insolvenzbekanntmachungen.de</div>
 <div class="hero-cta">
-<a href="https://www.team-freiheit.de" class="btn btn--hell" target="_blank" rel="noopener">Welches Team bist du?</a>
-<div class="meta" style="margin-left:auto;margin-right:auto;">Mach mit — finde dein Team</div>
+<a href="https://team-freiheit-mv.de/material" class="btn btn--hell" target="_blank" rel="noopener">Jetzt mitmachen</a>
+<div class="meta" style="margin-left:auto;margin-right:auto;">Werde Unterstützer — Material &amp; Aktionen</div>
 </div>
 <div class="meta hero-next" style="margin-left:auto;margin-right:auto;">Nächste Aktualisierung: Freitag Nachmittag</div>
 </div>
@@ -331,7 +331,7 @@ faelle: [
 { name: "Andricopoulos, Marios", ort: "Lüdersdorf", branche: "Regelinsolvenz" },
 { name: "Bilen, Yasemin", ort: "Schwerin", branche: "Privatinsolvenz" },
 { name: "Freh, Hussin", ort: "Neubrandenburg", branche: "Privatinsolvenz" },
-{ name: "Hinrichs, Kim Maria", ort: "Schwerin", branche: "Privatinsolvenz" }
+{ name: "Hinrichs, Kim Maria", ort: "Schwerin", branche: "Privatinsolvenz" },
 ]
 },
 
@@ -362,6 +362,7 @@ ticker: [
 };
 
 function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function joinMeta(parts,sep){ return parts.filter(p=>p&&String(p).trim()).map(esc).join(sep); }
 function kwNummer(label){ const m=String(label).match(/KW\s*(\d+)/); return m?m[1]:''; }
 
 function animateCounter(el, target, ms=2200) {
@@ -374,21 +375,22 @@ function renderWeek() {
 	document.getElementById('weekCases').innerHTML = DATA.woche.faelle.map(f=>`
 <div class="fall">
 <div class="fall-name">${esc(f.name)}</div>
-<div class="fall-meta">${esc(f.branche)} · ${esc(f.ort)}</div>
+<div class="fall-meta">${joinMeta([f.branche,f.ort],' · ')}</div>
 </div>`).join('');
 }
 function renderBigCases() {
 	document.getElementById('bigCaseList').innerHTML = DATA.bigFaelle.map(f=>`
 <div class="fall">
 <div class="fall-name">${esc(f.name)}</div>
-<div class="fall-meta">${esc(f.branche)} · ${esc(f.ort)} · ${esc(f.datum)}</div>
+<div class="fall-meta">${joinMeta([f.branche,f.ort,f.datum],' · ')}</div>
 <div class="fall-meta">${esc(f.info)}</div>
 </div>`).join('');
 }
 function buildTicker() {
-	const html = DATA.ticker.map(f=>
-		`<span class="ti"><span class="tn">${esc(f.name)}</span> <span class="tm">${esc(f.branche)}, ${esc(f.ort)}</span></span>`
-	).join('');
+	const html = DATA.ticker.map(f=>{
+		const meta=joinMeta([f.branche,f.ort],', ');
+		return `<span class="ti"><span class="tn">${esc(f.name)}</span>${meta?' <span class="tm">'+meta+'</span>':''}</span>`;
+	}).join('');
 	document.getElementById('bandScroll').innerHTML = html+html;
 }
 function renderDerived() {
