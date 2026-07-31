@@ -11,302 +11,305 @@
 <meta property="og:url" content="https://pleiteticker-mv.vercel.app">
 <meta property="og:type" content="website">
 <link rel="icon" type="image/png" href="favicon.png">
+<link rel="preload" href="montserrat-latin.woff2" as="font" type="font/woff2" crossorigin>
 <title>Pleiteticker MV – Team Freiheit</title>
 <style>
+@font-face {
+	font-family: Montserrat;
+	font-style: normal;
+	font-weight: 400 700;
+	font-display: swap;
+	src: url(montserrat-latin.woff2) format('woff2');
+}
+@font-face {
+	font-family: Montserrat;
+	font-style: normal;
+	font-weight: 900;
+	font-display: swap;
+	src: url(montserrat-latin.woff2) format('woff2');
+}
+
+:root {
+	--schwarz:#000; --weiss:#fff;
+	--text:#111; --text-absatz:#222; --text-neben:#333; --meta:#666;
+	--grau-mittel:#767676; --linie:#ccc; --kante:#e0e0e0;
+}
+
 * { margin:0; padding:0; box-sizing:border-box; }
-:root { --font: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
-body { font-family:var(--font); background:#000; -webkit-font-smoothing:antialiased; }
-.display { font-weight:900; font-style:italic; text-transform:uppercase; letter-spacing:-0.02em; line-height:0.92; }
 
-/* ---- BAND SYSTEM: accent = inversion, no hue ---- */
-.band-dark  { --fg:#ffffff; --bg:#000000; --muted:#9a9a9a; --line:rgba(255,255,255,.16); --line-2:rgba(255,255,255,.32); --panel:rgba(255,255,255,.04); --hl-bg:#ffffff; --hl-fg:#000000; --bar-cur:#ffffff; --bar-cur-fg:#000; --bar-prev:rgba(255,255,255,.30); --bar-prev-fg:#fff; --bar-old:rgba(255,255,255,.12); --bar-old-fg:#cfcfcf; --bar-track:rgba(255,255,255,.06); }
-.band-light { --fg:#111111; --bg:#fbfaf8; --muted:#6b6660; --line:rgba(0,0,0,.16); --line-2:rgba(0,0,0,.34); --panel:rgba(0,0,0,.03); --hl-bg:#111111; --hl-fg:#fbfaf8; --bar-cur:#111111; --bar-cur-fg:#fbfaf8; --bar-prev:rgba(0,0,0,.32); --bar-prev-fg:#fbfaf8; --bar-old:rgba(0,0,0,.12); --bar-old-fg:#555; --bar-track:rgba(0,0,0,.06); }
-.band { background:var(--bg); color:var(--fg); }
-.inner { max-width:980px; margin:0 auto; padding:34px 20px 42px; }
+html { -webkit-text-size-adjust:100%; }
+body {
+	font-family: Montserrat, system-ui, Arial, sans-serif;
+	font-weight:400;
+	line-height:1.55;
+	color:var(--text);
+	background:var(--weiss);
+	-webkit-font-smoothing:antialiased;
+}
 
-.eyebrow { font-size:.7rem; font-weight:900; letter-spacing:3px; text-transform:uppercase; color:var(--fg); opacity:.65; }
-.hl { background:var(--hl-bg); color:var(--hl-fg); padding:0 6px; }
+h1,h2,h3 { font-weight:900; font-style:normal; line-height:1.05; text-wrap:balance; }
+p { text-wrap:pretty; }
 
-/* ---------- HEADER ---------- */
-header { border-bottom:3px solid var(--fg); padding:14px 28px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; position:sticky; top:0; z-index:100; }
-.logo-group { display:flex; align-items:center; gap:14px; }
-.tf-logo-img { height:40px; width:auto; }
-.divider { width:2px; height:36px; background:rgba(255,255,255,.22); }
-.site-id .s1 { font-size:1.1rem; font-weight:900; color:var(--fg); text-transform:uppercase; letter-spacing:.5px; }
-.site-id .s2 { font-size:.64rem; color:var(--muted); text-transform:uppercase; letter-spacing:1.6px; margin-top:2px; }
-.hdr-badge { border:2.5px solid var(--fg); color:var(--fg); padding:6px 14px; font-size:.62rem; font-weight:900; letter-spacing:2px; text-transform:uppercase; }
-.hdr-right { display:flex; align-items:center; gap:12px; flex-wrap:wrap; }
-.hdr-cta { display:inline-flex; align-items:center; gap:8px; background:var(--fg); color:var(--bg); padding:11px 20px; font-weight:900; font-size:.74rem; text-transform:uppercase; letter-spacing:1px; text-decoration:none; border:2px solid var(--fg); white-space:nowrap; transition:background .15s,color .15s,transform .1s; }
-.hdr-cta:hover { background:transparent; color:var(--fg); transform:translateY(-1px); }
-.hdr-cta .arw { transition:transform .15s; }
-.hdr-cta:hover .arw { transform:translateX(3px); }
+/* Fokus – immer sichtbar */
+a:focus-visible, button:focus-visible, .btn:focus-visible {
+	outline:2px solid var(--schwarz); outline-offset:3px;
+}
 
-/* ---------- LIVE BAND ---------- */
-.ticker { border-bottom:1px solid var(--line); height:38px; overflow:hidden; position:relative; display:flex; align-items:center; }
-.ticker-tag { position:absolute; left:0; top:0; bottom:0; background:var(--hl-bg); color:var(--hl-fg); display:flex; align-items:center; padding:0 14px; font-size:.62rem; font-weight:900; letter-spacing:2px; text-transform:uppercase; z-index:2; white-space:nowrap; }
-.ticker-scroll { display:flex; animation:bscroll 60s linear infinite; padding-left:104px; will-change:transform; }
-.ticker-scroll:hover { animation-play-state:paused; }
-.bi { white-space:nowrap; padding:0 22px; font-size:.78rem; }
-.bi .fn { font-weight:700; color:var(--fg); }
-.bi .fo { color:var(--muted); font-size:.74rem; }
-.bi .fb { color:var(--fg); font-size:.7rem; font-weight:800; text-transform:uppercase; }
-.bi .fs { opacity:.4; padding:0 6px; }
-@keyframes bscroll { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+/* ---------- Flächen ---------- */
+.weiss { background:var(--weiss); color:var(--text); }
+.schwarz { background:var(--schwarz); color:var(--weiss); }
+.schwarz :where(a,.wortmarke) { color:var(--weiss); }
+.schwarz a:focus-visible, .schwarz button:focus-visible { outline-color:var(--weiss); }
 
-/* ---------- HERO ---------- */
-.hero { text-align:center; padding-top:52px; }
-.ctr-wrap { display:flex; align-items:flex-start; justify-content:center; gap:4px; }
-.ctr-num { font-size:clamp(5.5rem,16vw,11rem); font-weight:900; font-style:italic; line-height:.86; color:var(--fg); font-variant-numeric:tabular-nums; letter-spacing:-.04em; }
-.ctr-plus { font-size:clamp(2.4rem,6vw,4.5rem); font-weight:900; color:var(--fg); margin-top:8px; }
-.hero-lbl { font-size:clamp(1rem,2.6vw,1.5rem); margin:14px auto 6px; max-width:720px; color:var(--fg); }
-.hero-sub { font-size:.8rem; color:var(--muted); margin-bottom:26px; }
-.pills { display:flex; gap:0; justify-content:center; flex-wrap:wrap; border:1px solid var(--line-2); width:fit-content; margin:0 auto; }
-.pill { border-right:1px solid var(--line); padding:9px 16px; font-size:.76rem; display:flex; align-items:center; gap:7px; }
-.pill:last-child { border-right:none; }
-.pv { font-weight:900; background:var(--hl-bg); color:var(--hl-fg); padding:0 6px; }
-.pl { color:var(--muted); }
-.hero-cta-wrap { margin:26px 0 2px; }
-.hero-cta { display:inline-flex; align-items:center; gap:11px; background:var(--fg); color:var(--bg); padding:17px 34px; font-weight:900; font-size:clamp(1rem,2.1vw,1.25rem); text-transform:uppercase; letter-spacing:.5px; text-decoration:none; border:2px solid var(--fg); transition:background .15s,color .15s,transform .1s; }
-.hero-cta:hover { background:transparent; color:var(--fg); transform:translateY(-2px); }
-.hero-cta .arw { transition:transform .15s; }
-.hero-cta:hover .arw { transform:translateX(4px); }
-.hero-cta-sub { margin-top:12px; font-size:.72rem; color:var(--muted); text-transform:uppercase; letter-spacing:1.5px; }
-.upd-row { display:flex; align-items:center; justify-content:center; gap:8px; margin-top:20px; font-size:.7rem; color:var(--muted); text-transform:uppercase; letter-spacing:1px; }
-.ldot { width:7px; height:7px; border-radius:50%; background:var(--fg); animation:blink 2.5s infinite; }
-@keyframes blink { 0%,100%{opacity:1} 50%{opacity:.2} }
+.wrap { max-width:60rem; margin:0 auto; padding:clamp(2.25rem,6vw,4rem) clamp(1.25rem,4vw,2rem); }
+.wrap-schmal { max-width:46rem; }
 
-/* ---------- BREAKING ---------- */
-.breaking-inner { border:2px solid var(--fg); border-left:8px solid var(--fg); padding:18px 22px; display:flex; align-items:center; gap:16px; flex-wrap:wrap; }
-.breaking-tag { background:var(--hl-bg); color:var(--hl-fg); font-size:.64rem; font-weight:900; letter-spacing:2px; text-transform:uppercase; padding:5px 12px; white-space:nowrap; flex-shrink:0; }
-.breaking-text { font-size:.9rem; color:var(--fg); line-height:1.55; flex:1; }
-.breaking-text strong { background:var(--hl-bg); color:var(--hl-fg); padding:0 4px; }
+/* ---------- Wortmarke ---------- */
+.wortmarke {
+	display:inline-flex; align-items:center; justify-content:center;
+	border:0.16em solid currentColor;
+	padding:0.155em 0.82em;
+	line-height:1;
+	font-family:Montserrat, system-ui, Arial, sans-serif;
+	font-weight:900; text-transform:uppercase; letter-spacing:0.02em;
+	white-space:nowrap;
+}
 
-/* ---------- CARDS / GRID ---------- */
-.grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
-@media(max-width:640px){ .grid{grid-template-columns:1fr} }
-.card { border:1px solid var(--line); padding:22px 24px; }
-.card-full { grid-column:1/-1; }
-.grid + .grid, .breaking-inner + .grid { margin-top:16px; }
-.breaking + .grid { margin-top:24px; }
-.ch { font-size:.62rem; font-weight:900; letter-spacing:2.5px; text-transform:uppercase; color:var(--fg); opacity:.7; margin-bottom:16px; padding-bottom:10px; border-bottom:1px solid var(--line); }
+/* ---------- Typo-Stufen ---------- */
+.claim {
+	font-weight:900; font-style:italic; text-transform:uppercase;
+	line-height:0.97; letter-spacing:-0.015em; text-wrap:balance;
+}
+.label { font-size:0.8rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; }
+.lead { font-size:clamp(1.05rem,2.3vw,1.25rem); line-height:1.45; color:#1a1a1a; max-width:52ch; }
+.text { font-size:1rem; line-height:1.5; color:var(--text-absatz); max-width:56ch; }
+.meta { font-size:0.9rem; color:var(--meta); max-width:52ch; }
+.schwarz .meta, .schwarz .label { color:var(--weiss); }
 
-.week-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; padding-bottom:12px; border-bottom:1px solid var(--line); flex-wrap:wrap; gap:8px; }
-.week-title-group { display:flex; align-items:baseline; gap:10px; flex-wrap:wrap; }
-.week-title { font-size:.62rem; font-weight:900; letter-spacing:2.5px; text-transform:uppercase; color:var(--fg); opacity:.7; }
-.week-count { font-size:2rem; font-weight:900; font-style:italic; color:var(--fg); line-height:1; letter-spacing:-.02em; }
-.week-count-lbl { font-size:.6rem; font-weight:900; letter-spacing:2px; text-transform:uppercase; color:var(--muted); }
-.week-badge { background:var(--hl-bg); color:var(--hl-fg); padding:4px 11px; font-size:.64rem; font-weight:900; text-transform:uppercase; letter-spacing:1px; }
+/* ---------- UI ---------- */
+.btn {
+	display:inline-block; background:var(--schwarz); color:var(--weiss);
+	padding:0.75em 1.5em; border-radius:0; font:inherit; font-weight:700;
+	text-decoration:none; border:2px solid var(--schwarz); cursor:pointer;
+	transition:background .15s ease, color .15s ease;
+}
+.btn:hover { background:var(--weiss); color:var(--schwarz); }
+.btn--hell { background:var(--weiss); color:var(--schwarz); border-color:var(--weiss); }
+.btn--hell:hover { background:var(--schwarz); color:var(--weiss); }
 
-.cases { display:flex; flex-direction:column; gap:8px; }
-.case { display:flex; gap:12px; padding:11px 13px; background:var(--panel); border-left:3px solid var(--fg); }
-.cdot { width:7px; height:7px; border-radius:50%; background:var(--fg); margin-top:5px; flex-shrink:0; animation:blink 2.5s infinite; }
-.cn { font-size:.86rem; font-weight:700; margin-bottom:2px; color:var(--fg); }
-.cm { font-size:.72rem; color:var(--muted); }
-.ctag { display:inline-block; background:var(--hl-bg); color:var(--hl-fg); padding:1px 7px; font-size:.62rem; font-weight:800; text-transform:uppercase; letter-spacing:.5px; margin-left:6px; }
-.cnote { margin-top:12px; font-size:.7rem; color:var(--muted); }
-.cnote a { color:var(--fg); text-decoration:underline; }
+a.textlink { color:var(--text); font-weight:700; text-decoration:none; border-bottom:2px solid var(--linie); padding-bottom:0.05em; }
+a.textlink:hover { border-color:var(--text); }
+.schwarz a.textlink { border-bottom-color:rgba(255,255,255,.5); }
+.schwarz a.textlink:hover { border-bottom-color:var(--weiss); }
 
-.bars { display:flex; flex-direction:column; gap:11px; }
-.bar-row { display:flex; align-items:center; gap:10px; }
-.bar-yr { width:34px; font-size:.75rem; font-weight:700; color:var(--muted); flex-shrink:0; }
-.bar-outer { flex:1; background:var(--bar-track); height:30px; overflow:hidden; }
-.bar-inner { height:100%; display:flex; align-items:center; padding:0 10px; font-size:.75rem; font-weight:800; width:0; transition:width 1.4s cubic-bezier(.4,0,.2,1); white-space:nowrap; }
-.bold { background:var(--bar-old); color:var(--bar-old-fg); }
-.bprev { background:var(--bar-prev); color:var(--bar-prev-fg); }
-.bcur { background:var(--bar-cur); color:var(--bar-cur-fg); }
+/* ---------- Kopf ---------- */
+.kopf { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:1rem clamp(1rem,3vw,2rem); }
+.kopf-id { display:flex; flex-direction:column; gap:0.55rem; }
+.kopf .wortmarke { font-size:1rem; align-self:flex-start; }
+.kopf-titel { font-size:1.15rem; font-weight:900; text-transform:uppercase; letter-spacing:0.02em; line-height:1; }
+.kopf-sub { font-size:0.8rem; color:var(--meta); margin-top:0.25rem; }
 
-.branchen { display:flex; flex-direction:column; gap:10px; }
-.br-row { display:flex; align-items:center; gap:10px; }
-.br-label { width:130px; font-size:.75rem; color:var(--fg); flex-shrink:0; }
-.br-bar-outer { flex:1; background:var(--bar-track); height:27px; overflow:hidden; }
-.br-bar-inner { height:100%; display:flex; align-items:center; padding:0 8px; font-size:.72rem; font-weight:800; width:0; transition:width 1.4s cubic-bezier(.4,0,.2,1); white-space:nowrap; }
-.bc1 { background:var(--bar-cur); color:var(--bar-cur-fg); }
-.bc2 { background:var(--bar-prev); color:var(--bar-prev-fg); }
-.bc3 { background:var(--bar-old); color:var(--bar-old-fg); }
-.bc4 { background:var(--bar-old); color:var(--bar-old-fg); opacity:.7; }
-.bc5 { background:var(--bar-old); color:var(--bar-old-fg); opacity:.5; }
+/* ---------- Ticker ---------- */
+.ticker { display:flex; align-items:center; overflow:hidden; white-space:nowrap; padding:0.7rem 0; }
+.ticker-label { flex:0 0 auto; padding:0 1.1rem 0 clamp(1.25rem,4vw,2rem); font-size:0.72rem; font-weight:700; text-transform:uppercase; letter-spacing:0.14em; }
+.ticker-view { flex:1 1 auto; overflow:hidden; }
+.ticker-scroll { display:inline-flex; animation:tscroll 65s linear infinite; will-change:transform; }
+.ticker:hover .ticker-scroll { animation-play-state:paused; }
+.ti { padding:0 1.6rem; font-size:0.85rem; }
+.ti .tn { font-weight:700; }
+.ti .tm { color:var(--weiss); font-weight:400; }
+@keyframes tscroll { from{transform:translateX(0)} to{transform:translateX(-50%)} }
 
-.facts { display:flex; flex-direction:column; }
-.fact { display:flex; justify-content:space-between; align-items:center; gap:12px; padding:11px 0; border-bottom:1px solid var(--line); }
-.fact:last-child { border-bottom:none; }
-.fl { font-size:.8rem; color:var(--muted); }
-.fv { font-size:.92rem; font-weight:800; text-align:right; color:var(--fg); }
-.fv .hl { font-weight:900; }
+/* ---------- Hero ---------- */
+.hero { text-align:center; }
+.hero .eyebrow { font-size:0.8rem; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; }
+.zahl-wrap { display:flex; align-items:flex-start; justify-content:center; gap:0.05em; margin:0.5rem 0 0.25rem; }
+.zahl { font-weight:900; font-style:italic; font-size:clamp(5.5rem,20vw,13rem); line-height:0.82; letter-spacing:-0.05em; font-variant-numeric:tabular-nums; }
+.zahl-plus { font-weight:900; font-style:italic; font-size:clamp(2.5rem,8vw,5.5rem); line-height:1; margin-top:0.15em; }
+.hero .claim { font-size:clamp(1.6rem,5vw,3rem); max-width:22ch; margin:0 auto; }
+.hero .meta { margin:1.25rem auto 0; }
+.hero-cta { margin-top:2rem; }
+.hero-cta .btn { font-size:clamp(1rem,2.2vw,1.2rem); }
+.hero-cta .meta { margin:0.85rem auto 0; }
+.hero-next { margin-top:1.75rem; }
 
-/* ---------- CTA ---------- */
-.cta { display:flex; align-items:center; justify-content:space-between; gap:26px; flex-wrap:wrap; }
-.cta-txt h2 { font-size:clamp(1.5rem,4vw,2.4rem); font-weight:900; font-style:italic; text-transform:uppercase; letter-spacing:-.02em; line-height:.98; margin-bottom:12px; color:var(--fg); }
-.cta-txt h2 span { background:var(--hl-bg); color:var(--hl-fg); padding:0 8px; }
-.cta-txt p { font-size:.86rem; color:var(--muted); max-width:520px; line-height:1.6; }
-.cta-btn { display:inline-flex; align-items:center; gap:9px; background:var(--fg); color:var(--bg); padding:15px 26px; font-family:var(--font); font-weight:900; font-size:.82rem; text-transform:uppercase; letter-spacing:1px; text-decoration:none; white-space:nowrap; border:2px solid var(--fg); transition:background .15s,color .15s,transform .1s; }
-.cta-btn:hover { background:transparent; color:var(--fg); transform:translateY(-2px); }
+/* ---------- Abschnitte ---------- */
+.h2 { font-weight:900; font-size:clamp(2.1rem,5.5vw,3.5rem); letter-spacing:-0.02em; line-height:1; }
+.sec-label { display:block; margin-bottom:1.5rem; }
+.sec-head { margin-bottom:1.75rem; }
 
-/* ---------- WAHLAUFRUF-BAND ---------- */
-.wahl { text-align:center; padding:clamp(48px,8vw,80px) 20px; }
-.wahl-box { display:inline-block; border:3.5px solid var(--fg); color:var(--fg); font-weight:900; text-transform:uppercase; letter-spacing:.1em; font-size:clamp(1.7rem,5.5vw,3.2rem); line-height:1; padding:12px 30px 14px; }
-.wahl-sub { margin-top:20px; font-style:italic; font-weight:500; font-size:clamp(1.05rem,2.6vw,1.6rem); color:var(--fg); }
-.wahl-sub b { font-weight:800; font-style:italic; }
+/* Wochenkopf */
+.woche-kopf { display:flex; align-items:baseline; gap:0.75rem 1.25rem; flex-wrap:wrap; margin-bottom:0.5rem; }
+.woche-zahl { font-weight:900; font-size:clamp(2.6rem,7vw,4rem); line-height:0.9; letter-spacing:-0.02em; }
+.woche-zahl-lbl { font-weight:900; font-size:clamp(1.05rem,2.6vw,1.3rem); }
+.woche-kw { font-size:0.9rem; color:var(--meta); }
 
-/* ---------- FOOTER ---------- */
-footer { border-top:1px solid var(--line); padding:20px 28px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px; font-size:.68rem; color:var(--muted); }
-footer a { color:var(--muted); text-decoration:underline; }
-.fbrand { font-weight:900; color:var(--fg); text-transform:uppercase; letter-spacing:1px; border:2px solid var(--fg); padding:4px 10px; font-size:.62rem; }
+/* Fall-Liste – editorial, ohne Boxen/Badges/Aufzählungszeichen */
+.faelle { margin-top:1.75rem; display:grid; gap:1.1rem; max-width:52rem; }
+.fall .fall-name { font-weight:700; font-size:1rem; color:var(--text); }
+.fall .fall-meta { font-size:0.9rem; color:var(--meta); margin-top:0.15rem; }
+
+/* Tabellen (dokumentierte Guide-Komponente für echte Tabellen) */
+table { border-collapse:collapse; width:100%; max-width:46rem; margin-top:1.25rem; }
+th, td { text-align:left; padding:0.65rem 1.25rem 0.65rem 0; vertical-align:top; }
+thead th { font-size:0.8rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:var(--grau-mittel); border-bottom:2px solid var(--schwarz); }
+tbody td { border-bottom:1px solid var(--kante); }
+tbody tr:last-child td { border-bottom:0; }
+td.wert { font-weight:700; white-space:nowrap; }
+.tab-quelle { margin-top:1rem; }
+
+.block + .block { margin-top:clamp(2.5rem,6vw,3.75rem); }
+
+/* Wahlaufruf */
+.wahl { text-align:center; display:flex; flex-direction:column; align-items:center; gap:clamp(1.5rem,4vh,2.5rem); }
+.wahl .claim { font-size:clamp(2rem,7vw,4.25rem); max-width:16ch; }
+.wahl .wortmarke { font-size:clamp(1rem,2.8vw,1.6rem); }
+
+/* Footer – einzige erlaubte Trennkante (1px) */
+.fuss { border-top:1px solid var(--kante); }
+.fuss .wrap { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:0.75rem 1.5rem; padding-top:1.75rem; padding-bottom:1.75rem; }
+.fuss p { font-size:0.85rem; color:var(--meta); }
+.fuss .wortmarke { font-size:0.8rem; color:var(--text); }
 </style>
 </head>
 <body>
 
-<header class="band band-dark">
-<div class="logo-group">
-<img src="logo.png" alt="Team Freiheit" class="tf-logo-img">
-<div class="divider"></div>
-<div class="site-id">
-<div class="s1">Pleiteticker MV</div>
-<div class="s2">Insolvenzmonitor Mecklenburg-Vorpommern</div>
+<!-- Kopf -->
+<header class="weiss">
+<div class="wrap kopf" style="padding-top:clamp(1.5rem,4vw,2.25rem);padding-bottom:clamp(1.5rem,4vw,2.25rem);">
+<div class="kopf-id">
+<span class="wortmarke">Team Freiheit</span>
+<div>
+<div class="kopf-titel">Pleiteticker MV</div>
+<div class="kopf-sub">Insolvenzmonitor Mecklenburg-Vorpommern</div>
 </div>
 </div>
-<div class="hdr-right">
-<a href="https://www.team-freiheit.de" class="hdr-cta" target="_blank" rel="noopener">Welches Team bist du? <span class="arw">→</span></a>
+<a href="https://www.team-freiheit.de" class="btn" target="_blank" rel="noopener">Welches Team bist du?</a>
 </div>
 </header>
 
-<div class="ticker band band-dark">
-<div class="ticker-tag">Aktuell</div>
-<div class="ticker-scroll" id="bandScroll"></div>
+<!-- Ticker -->
+<div class="ticker schwarz">
+<span class="ticker-label">Aktuell</span>
+<div class="ticker-view"><div class="ticker-scroll" id="bandScroll"></div></div>
 </div>
 
-<!-- SCHWARZ: Hero -->
-<section class="band band-dark">
-<div class="inner hero">
-<div class="eyebrow">Mecklenburg-Vorpommern · 01.01.2026 – 24.07.2026</div>
-<div class="ctr-wrap">
-<div class="ctr-num" id="mainCtr">0</div>
-<div class="ctr-plus">+</div>
+<!-- Hero (schwarze Vollfläche, zentriert) -->
+<section class="schwarz">
+<div class="wrap hero">
+<div class="eyebrow" id="eyebrow">Mecklenburg-Vorpommern · 01.01.2026 – 24.07.2026</div>
+<div class="zahl-wrap">
+<div class="zahl" id="mainCtr">0</div>
+<div class="zahl-plus">+</div>
 </div>
-<div class="hero-lbl display">Eröffnete Insolvenzverfahren in MV seit Jahresbeginn</div>
-<div class="hero-sub">Stand: <span id="standDatum">–</span> · Nur Eröffnungen · Wöchentlich aktualisiert · Quelle: insolvenzbekanntmachungen.de</div>
-<div class="pills">
-<div class="pill"><span class="pv">Seit 01.01.2026</span><span class="pl">laufend gezählt</span></div>
-<div class="pill"><span class="pv">Unternehmen + Privat</span><span class="pl">eröffnete Verfahren</span></div>
-<div class="pill"><span class="pv">KW 30</span><span class="pl">25 neue Fälle</span></div>
+<div class="claim">Eröffnete Insolvenzverfahren in MV seit Jahresbeginn</div>
+<div class="meta" style="margin-left:auto;margin-right:auto;">Stand: <span id="standDatum">–</span> · Nur Eröffnungen · Wöchentlich aktualisiert · Quelle: insolvenzbekanntmachungen.de</div>
+<div class="hero-cta">
+<a href="https://www.team-freiheit.de" class="btn btn--hell" target="_blank" rel="noopener">Welches Team bist du?</a>
+<div class="meta" style="margin-left:auto;margin-right:auto;">Mach mit — finde dein Team</div>
 </div>
-<div class="hero-cta-wrap">
-<a href="https://www.team-freiheit.de" class="hero-cta" target="_blank" rel="noopener">Welches Team bist du? <span class="arw">→</span></a>
-<div class="hero-cta-sub">Mach mit — finde dein Team</div>
-</div>
-<div class="upd-row"><span class="ldot"></span> Nächste Aktualisierung: Freitag Nachmittag</div>
+<div class="meta hero-next" style="margin-left:auto;margin-right:auto;">Nächste Aktualisierung: Freitag Nachmittag</div>
 </div>
 </section>
 
-<!-- CREME: Breaking + Diese Woche (Inversion) -->
-<section class="band band-light">
-<div class="inner">
-<div class="breaking">
-<div class="breaking-inner">
-<div class="breaking-tag">◆ Live-Ticker</div>
-<div class="breaking-text">
-Der Pleiteticker dokumentiert <strong>eröffnete Insolvenzverfahren in MV</strong> — Unternehmen wie Privatpersonen — Woche für Woche aus dem amtlichen Portal. <strong>Allein in KW 30: 25 neue Fälle.</strong> Zum Vergleich: Das Statistische Amt M-V zählte 2024 landesweit 2.456 Insolvenzen.
-</div>
-</div>
-</div>
+<!-- Diese Woche (weiß, editorial linksbündig) -->
+<section class="weiss">
+<div class="wrap">
+<p class="lead">Der Pleiteticker dokumentiert eröffnete Insolvenzverfahren in Mecklenburg-Vorpommern — Unternehmen wie Privatpersonen — Woche für Woche aus dem amtlichen Portal. Allein in KW&nbsp;<span id="kontextKw">30</span>: <span id="kontextAnzahl">25</span> neue Fälle. Zum Vergleich: Das Statistische Amt M-V zählte 2024 landesweit 2.456&nbsp;Insolvenzen.</p>
 
-<div class="grid">
-<div class="card card-full">
-<div class="week-header">
-<div class="week-title-group">
-<div class="week-title">Diese Woche</div>
-<div class="week-count" id="weekCount">–</div>
-<div class="week-count-lbl">Neue Insolvenzeröffnungen</div>
+<div class="block">
+<div class="woche-kopf">
+<span class="woche-zahl" id="weekCount">–</span>
+<span class="woche-zahl-lbl">Neue Insolvenzeröffnungen</span>
+<span class="woche-kw" id="weekLabel">–</span>
 </div>
-<div class="week-badge" id="weekLabel">–</div>
-</div>
-<div class="cases" id="weekCases"></div>
-<div class="cnote">Vollständige Liste: <a href="https://neu.insolvenzbekanntmachungen.de" target="_blank">insolvenzbekanntmachungen.de</a> → Bundesland: MV · Gegenstand: Eröffnungen</div>
-</div>
+<div class="faelle" id="weekCases"></div>
+<p class="meta tab-quelle">Vollständige Liste: <a class="textlink" href="https://neu.insolvenzbekanntmachungen.de" target="_blank" rel="noopener">insolvenzbekanntmachungen.de</a> — Bundesland MV, Gegenstand Eröffnungen.</p>
 </div>
 </div>
 </section>
 
-<!-- SCHWARZ: Jahresvergleich + Fakten -->
-<section class="band band-dark">
-<div class="inner">
-<div class="grid">
-<div class="card">
-<div class="ch">Amtliche Einordnung · MV 2024 (Statistisches Amt M-V)</div>
-<div class="facts">
-<div class="fact"><div class="fl">Insolvenzen gesamt 2024</div><div class="fv"><span class="hl">2.456</span></div></div>
-<div class="fact"><div class="fl">Veränderung ggü. 2023</div><div class="fv">+3,1 %</div></div>
-<div class="fact"><div class="fl">davon Unternehmen</div><div class="fv">273</div></div>
-<div class="fact"><div class="fl">davon Verbraucher</div><div class="fv">1.787</div></div>
-<div class="fact"><div class="fl">Forderungen (Unternehmen)</div><div class="fv">~226 Mio €</div></div>
+<!-- Einordnung (weiß) -->
+<section class="weiss">
+<div class="wrap">
+<div class="block">
+<span class="label sec-label">Amtliche Einordnung — MV 2024, Statistisches Amt M-V</span>
+<table>
+<tbody>
+<tr><td>Insolvenzen gesamt 2024</td><td class="wert">2.456</td></tr>
+<tr><td>Veränderung gegenüber 2023</td><td class="wert">+3,1 %</td></tr>
+<tr><td>davon Unternehmen</td><td class="wert">273</td></tr>
+<tr><td>davon Verbraucher</td><td class="wert">1.787</td></tr>
+<tr><td>Forderungen (Unternehmen)</td><td class="wert">~226 Mio €</td></tr>
+</tbody>
+</table>
 </div>
-</div>
-<div class="card">
-<div class="ch">Live erfasst · 2026 (insolvenzbekanntmachungen.de)</div>
-<div class="facts">
-<div class="fact"><div class="fl">Eröffnete Verfahren seit 01.01.2026</div><div class="fv"><span class="hl">545</span></div></div>
-<div class="fact"><div class="fl">Diese Woche (KW 30)</div><div class="fv">25</div></div>
-<div class="fact"><div class="fl">Erfasst</div><div class="fv">Unternehmen + Privat</div></div>
-<div class="fact"><div class="fl">Stärkste Branche (2024)</div><div class="fv">Baugewerbe</div></div>
-<div class="fact"><div class="fl">Aktualisierung</div><div class="fv">wöchentlich</div></div>
-</div>
-</div>
+
+<div class="block">
+<span class="label sec-label">Live erfasst — 2026, insolvenzbekanntmachungen.de</span>
+<table>
+<tbody>
+<tr><td>Eröffnete Verfahren seit 01.01.2026</td><td class="wert"><span id="liveVerfahren">545</span></td></tr>
+<tr><td>Diese Woche (<span id="liveWocheKw">KW 30</span>)</td><td class="wert"><span id="liveWoche">25</span></td></tr>
+<tr><td>Erfasst</td><td class="wert">Unternehmen &amp; Privat</td></tr>
+<tr><td>Stärkste Branche (2024)</td><td class="wert">Baugewerbe</td></tr>
+<tr><td>Aktualisierung</td><td class="wert">wöchentlich</td></tr>
+</tbody>
+</table>
 </div>
 </div>
 </section>
 
-<!-- CREME: Schlaglichter (Inversion) -->
-<section class="band band-light">
-<div class="inner">
-<div class="card card-full">
-<div class="ch">Schlaglichter · Große Insolvenzen 2026 in MV</div>
-<div class="cases" id="bigCaseList"></div>
-<div class="cnote">Alle Verfahren: <a href="https://neu.insolvenzbekanntmachungen.de" target="_blank">insolvenzbekanntmachungen.de</a> → Bundesland: MV · Gegenstand: Eröffnungen</div>
-</div>
+<!-- Schlaglichter (weiß) -->
+<section class="weiss">
+<div class="wrap">
+<span class="label sec-label">Schlaglichter — Große Insolvenzen 2026 in MV</span>
+<div class="faelle" id="bigCaseList"></div>
+<p class="meta tab-quelle">Alle Verfahren: <a class="textlink" href="https://neu.insolvenzbekanntmachungen.de" target="_blank" rel="noopener">insolvenzbekanntmachungen.de</a> — Bundesland MV, Gegenstand Eröffnungen.</p>
 </div>
 </section>
 
-<!-- SCHWARZ: Branchen -->
-<section class="band band-dark">
-<div class="inner">
-<div class="card card-full">
-<div class="ch">Betroffene Branchen · MV 2024 (Creditreform)</div>
-<div class="branchen">
-<div class="br-row"><div class="br-label">Baugewerbe</div><div class="br-bar-outer"><div class="br-bar-inner bc1" data-w="100">53 Fälle</div></div></div>
-<div class="br-row"><div class="br-label">Gastgewerbe</div><div class="br-bar-outer"><div class="br-bar-inner bc2" data-w="79">42 Fälle</div></div></div>
-<div class="br-row"><div class="br-label">Handel</div><div class="br-bar-outer"><div class="br-bar-inner bc3" data-w="60">32 Fälle</div></div></div>
-<div class="br-row"><div class="br-label">Landwirtschaft</div><div class="br-bar-outer"><div class="br-bar-inner bc4" data-w="40">21 Fälle</div></div></div>
-<div class="br-row"><div class="br-label">Dienstleistung</div><div class="br-bar-outer"><div class="br-bar-inner bc5" data-w="30">16 Fälle</div></div></div>
-</div>
-</div>
-</div>
-</section>
-
-<!-- CREME: CTA (Inversion) -->
-<section class="band band-light">
-<div class="inner cta">
-<div class="cta-txt">
-<h2>MV verdient <span>bessere Wirtschaftspolitik.</span></h2>
-<p>Jede Insolvenz steht für Arbeitsplätze, Lebensleistungen und Familien in der Unsicherheit. Weniger Bürokratie, weniger Staat, mehr unternehmerische Freiheit — dafür tritt Team Freiheit zur Landtagswahl 2026 an.</p>
-</div>
-<a href="https://www.team-freiheit.de" class="cta-btn" target="_blank">Mehr erfahren →</a>
+<!-- Branchen (weiß) -->
+<section class="weiss">
+<div class="wrap">
+<span class="label sec-label">Betroffene Branchen — MV 2024, Creditreform</span>
+<table>
+<thead><tr><th>Branche</th><th>Fälle 2024</th></tr></thead>
+<tbody>
+<tr><td>Baugewerbe</td><td class="wert">53</td></tr>
+<tr><td>Gastgewerbe</td><td class="wert">42</td></tr>
+<tr><td>Handel</td><td class="wert">32</td></tr>
+<tr><td>Landwirtschaft</td><td class="wert">21</td></tr>
+<tr><td>Dienstleistung</td><td class="wert">16</td></tr>
+</tbody>
+</table>
 </div>
 </section>
 
-<!-- SCHWARZ: Wahlaufruf -->
-<section class="band band-dark">
-<div class="wahl">
-<div class="wahl-box">Team Freiheit</div>
-<div class="wahl-sub">Am <b>20.09.</b> Team Freiheit wählen.</div>
+<!-- CTA (weiß, editorial) -->
+<section class="weiss">
+<div class="wrap wrap-schmal">
+<h2 class="h2">MV verdient bessere Wirtschaftspolitik.</h2>
+<p class="text" style="margin-top:1.25rem;">Jede Insolvenz steht für Arbeitsplätze, Lebensleistungen und Familien in der Unsicherheit. Weniger Bürokratie, weniger Staat, mehr unternehmerische Freiheit — dafür tritt Team Freiheit zur Landtagswahl 2026 an.</p>
+<p style="margin-top:1.75rem;"><a href="https://www.team-freiheit.de" class="btn" target="_blank" rel="noopener">Mehr erfahren</a></p>
 </div>
 </section>
 
-<!-- SCHWARZ: Footer -->
-<div class="band band-dark">
-<footer>
-<div>Daten: insolvenzbekanntmachungen.de · Creditreform · Wöchentlich aktualisiert · Ohne Gewähr</div>
-<div class="fbrand">Team Freiheit MV · Landtagswahl 2026</div>
+<!-- Wahlaufruf (schwarze Vollfläche) -->
+<section class="schwarz">
+<div class="wrap wahl">
+<p class="claim">Am 20.09. Team Freiheit wählen.</p>
+<span class="wortmarke">Team Freiheit</span>
+</div>
+</section>
+
+<!-- Footer (weiß, Oberkante 1px) -->
+<footer class="fuss weiss">
+<div class="wrap">
+<p>Daten: insolvenzbekanntmachungen.de · Creditreform · Wöchentlich aktualisiert · Ohne Gewähr</p>
+<span class="wortmarke">Team Freiheit</span>
+</div>
 </footer>
-</div>
 
 <script>
 const DATA = {
@@ -356,56 +359,54 @@ ticker: [
 ]
 };
 
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function kwNummer(label){ const m=String(label).match(/KW\s*(\d+)/); return m?m[1]:''; }
+
 function animateCounter(el, target, ms=2200) {
-let v=0, step=target/(ms/16);
-const t=setInterval(()=>{ v=Math.min(v+step,target); el.textContent=Math.floor(v).toLocaleString('de-DE'); if(v>=target)clearInterval(t); },16);
-}
-function animateBars() {
-document.querySelectorAll('.bar-inner, .br-bar-inner').forEach(b=>{
-setTimeout(()=>{ b.style.width=b.dataset.w+'%'; },250);
-});
+	let v=0, step=target/(ms/16);
+	const t=setInterval(()=>{ v=Math.min(v+step,target); el.textContent=Math.floor(v).toLocaleString('de-DE'); if(v>=target)clearInterval(t); },16);
 }
 function renderWeek() {
-document.getElementById('weekLabel').textContent = DATA.woche.label;
-document.getElementById('weekCount').textContent = DATA.woche.anzahl;
-document.getElementById('weekCases').innerHTML = DATA.woche.faelle.map(f=>`
-<div class="case">
-<div class="cdot"></div>
-<div>
-<div class="cn">${f.name}<span class="ctag">${f.branche}</span></div>
-<div class="cm">${f.ort}</div>
-</div>
+	document.getElementById('weekLabel').textContent = DATA.woche.label;
+	document.getElementById('weekCount').textContent = DATA.woche.anzahl;
+	document.getElementById('weekCases').innerHTML = DATA.woche.faelle.map(f=>`
+<div class="fall">
+<div class="fall-name">${esc(f.name)}</div>
+<div class="fall-meta">${esc(f.branche)} · ${esc(f.ort)}</div>
 </div>`).join('');
 }
 function renderBigCases() {
-document.getElementById('bigCaseList').innerHTML = DATA.bigFaelle.map(f=>`
-<div class="case">
-<div class="cdot"></div>
-<div>
-<div class="cn">${f.name}<span class="ctag">${f.branche}</span></div>
-<div class="cm" style="margin-bottom:3px;">${f.ort} · ${f.datum}</div>
-<div class="cm" style="opacity:.8;">${f.info}</div>
-</div>
+	document.getElementById('bigCaseList').innerHTML = DATA.bigFaelle.map(f=>`
+<div class="fall">
+<div class="fall-name">${esc(f.name)}</div>
+<div class="fall-meta">${esc(f.branche)} · ${esc(f.ort)} · ${esc(f.datum)}</div>
+<div class="fall-meta">${esc(f.info)}</div>
 </div>`).join('');
 }
 function buildTicker() {
-const html = DATA.ticker.map(f=>
-`<span class="bi"><span class="fn">${f.name}</span> <span class="fb">[${f.branche}]</span> <span class="fo">(${f.ort})</span><span class="fs"> ◆ </span></span>`
-).join('');
-document.getElementById('bandScroll').innerHTML = html+html;
+	const html = DATA.ticker.map(f=>
+		`<span class="ti"><span class="tn">${esc(f.name)}</span> <span class="tm">${esc(f.branche)}, ${esc(f.ort)}</span></span>`
+	).join('');
+	document.getElementById('bandScroll').innerHTML = html+html;
+}
+function renderDerived() {
+	const kw = kwNummer(DATA.woche.label);
+	document.getElementById('standDatum').textContent = DATA.stand;
+	document.getElementById('eyebrow').textContent = 'Mecklenburg-Vorpommern · 01.01.2026 – ' + DATA.stand;
+	document.getElementById('kontextKw').textContent = kw;
+	document.getElementById('kontextAnzahl').textContent = DATA.woche.anzahl;
+	document.getElementById('liveVerfahren').textContent = DATA.verfahren.toLocaleString('de-DE');
+	document.getElementById('liveWoche').textContent = DATA.woche.anzahl;
+	document.getElementById('liveWocheKw').textContent = 'KW ' + kw;
 }
 
-document.getElementById('standDatum').textContent = DATA.stand;
-document.getElementById('standDatum').style.display = 'inline';
+renderDerived();
 
 window.addEventListener('load', ()=>{
-buildTicker();
-renderWeek();
-renderBigCases();
-setTimeout(()=>{
-animateCounter(document.getElementById('mainCtr'), DATA.verfahren);
-animateBars();
-}, 300);
+	buildTicker();
+	renderWeek();
+	renderBigCases();
+	setTimeout(()=>{ animateCounter(document.getElementById('mainCtr'), DATA.verfahren); }, 300);
 });
 </script>
 </body>

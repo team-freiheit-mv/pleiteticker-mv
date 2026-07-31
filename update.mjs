@@ -147,11 +147,8 @@ ${jsCases(ticker)}
   html = html.replace(/stand:\s*"[^"]*"\s*,/, `stand: "${stand}",`);
   html = html.replace(/woche:\s*\{[\s\S]*?\n\},/, wocheBlock);
   html = html.replace(/ticker:\s*\[[\s\S]*?\n\]/, tickerBlock);
-  html = html.replace(/(Mecklenburg-Vorpommern · 01\.01\.2026 – )\d{2}\.\d{2}\.\d{4}/, `$1${stand}`);
-  html = html.replace(/<span class="pv">KW\s*\d+<\/span><span class="pl">\d+ neue Fälle<\/span>/, `<span class="pv">KW ${woche.kw}</span><span class="pl">${woche.anzahl} neue Fälle</span>`);
-  html = html.replace(/Allein in KW\s*\d+: \d+ neue Fälle\./, `Allein in KW ${woche.kw}: ${woche.anzahl} neue Fälle.`);
-  html = html.replace(/(Eröffnete Verfahren seit 01\.01\.2026<\/div><div class="fv"><span class="hl">)\d+(<\/span>)/, `$1${verfahren}$2`);
-  html = html.replace(/(Diese Woche \(KW\s*)\d+(\)<\/div><div class="fv">)\d+(<\/div>)/, `$1${woche.kw}$2${woche.anzahl}$3`);
+  // Alle Sichttexte (Eyebrow-Datum, Kontext-Satz, "Live erfasst"-Werte) werden
+  // im Browser aus DATA gerendert -> hier nur noch das Datenobjekt + Redeploy-Marke.
   html = html.replace(/<!-- redeploy-trigger:[^>]*-->/, `<!-- redeploy-trigger: ${stand} -->`);
   if (html === before) throw new Error('index.html unverändert – Muster nicht gefunden? Abbruch.');
   if (DRY) { console.log('[DRY] index.html NICHT geschrieben (Muster ok, würde aktualisieren).'); return; }
@@ -162,24 +159,30 @@ ${jsCases(ticker)}
 // ---------- og-image.png erzeugen ----------
 async function makeOg(verfahren, stand) {
   if (DRY) { console.log('[DRY] og-image.png NICHT erzeugt.'); return; }
-  const logoB64 = fs.existsSync(path.join(ROOT, 'logo.png'))
-    ? fs.readFileSync(path.join(ROOT, 'logo.png')).toString('base64') : '';
+  const fontPath = path.join(ROOT, 'montserrat-latin.woff2');
+  const fontB64 = fs.existsSync(fontPath) ? fs.readFileSync(fontPath).toString('base64') : '';
+  const fontFace = fontB64
+    ? `@font-face{font-family:Montserrat;font-style:normal;font-weight:400 900;src:url(data:font/woff2;base64,${fontB64}) format('woff2')}`
+    : '';
+  // CI Team Freiheit: monochrom, Montserrat, Wortmarke im Kasten (kein Logo-Bild),
+  // auf Schwarz nur reines Weiß, kursive Versalien nur als Claim.
   const og = `<!DOCTYPE html><html><head><meta charset="utf-8"><style>
+${fontFace}
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{width:1200px;height:630px}
-body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:#000;color:#fff;width:1200px;height:630px;display:flex;flex-direction:column;justify-content:space-between;padding:52px 60px}
-.top{display:flex;align-items:center;gap:20px}.top img{height:56px}.top .div{width:2px;height:48px;background:rgba(255,255,255,.25)}
-.t1{font-size:30px;font-weight:900;text-transform:uppercase;letter-spacing:.5px}.t2{font-size:16px;color:#9a9aa2;text-transform:uppercase;letter-spacing:2px;margin-top:3px}
-.eyebrow{font-size:22px;font-weight:900;letter-spacing:5px;text-transform:uppercase;color:#fff}
-.ctr{display:flex;align-items:flex-start;gap:8px;margin:6px 0 2px}.num{font-size:250px;font-weight:900;font-style:italic;line-height:.82;letter-spacing:-.05em}.plus{font-size:120px;font-weight:900;line-height:1;margin-top:12px}
-.lbl{font-size:34px;font-weight:900;font-style:italic;text-transform:uppercase;line-height:1.02;max-width:820px}
-.bottom{display:flex;align-items:center;justify-content:space-between}.stat{font-size:26px;color:#9a9aa2}
-.ogwahl{display:flex;flex-direction:column;align-items:flex-end;gap:10px}.badge{border:4px solid #fff;padding:8px 20px;font-size:24px;font-weight:900;text-transform:uppercase;letter-spacing:2px}
-.wahlsub{font-style:italic;font-size:22px;color:#fff}.wahlsub b{font-weight:800}
+body{font-family:Montserrat,system-ui,Arial,sans-serif;background:#000;color:#fff;width:1200px;height:630px;display:flex;flex-direction:column;justify-content:space-between;padding:54px 60px}
+.top{display:flex;align-items:center;gap:22px}
+.wm{display:inline-flex;align-items:center;border:3px solid #fff;padding:7px 18px;font-weight:900;text-transform:uppercase;letter-spacing:.02em;font-size:22px;line-height:1;white-space:nowrap}
+.t1{font-size:30px;font-weight:900;text-transform:uppercase;letter-spacing:.5px}.t2{font-size:16px;font-weight:400;text-transform:uppercase;letter-spacing:2px;margin-top:4px}
+.eyebrow{font-size:20px;font-weight:700;letter-spacing:4px;text-transform:uppercase}
+.ctr{display:flex;align-items:flex-start;gap:6px;margin:4px 0}.num{font-size:250px;font-weight:900;font-style:italic;line-height:.82;letter-spacing:-.05em}.plus{font-size:120px;font-weight:900;font-style:italic;line-height:1;margin-top:14px}
+.lbl{font-size:34px;font-weight:900;font-style:italic;text-transform:uppercase;line-height:1.02;max-width:900px}
+.bottom{display:flex;align-items:flex-end;justify-content:space-between;gap:32px}.stat{font-size:24px;font-weight:400}
+.wahl{font-style:italic;font-weight:900;text-transform:uppercase;font-size:26px;letter-spacing:-.01em;text-align:right;max-width:420px;line-height:1.05}
 </style></head><body>
-<div class="top">${logoB64 ? `<img src="data:image/png;base64,${logoB64}">` : ''}<div class="div"></div><div><div class="t1">Pleiteticker MV</div><div class="t2">Insolvenzmonitor Mecklenburg-Vorpommern</div></div></div>
+<div class="top"><span class="wm">Team Freiheit</span><div><div class="t1">Pleiteticker MV</div><div class="t2">Insolvenzmonitor Mecklenburg-Vorpommern</div></div></div>
 <div><div class="eyebrow">Mecklenburg-Vorpommern · 2026</div><div class="ctr"><div class="num">${verfahren}</div><div class="plus">+</div></div><div class="lbl">Eröffnete Insolvenzverfahren seit Jahresbeginn</div></div>
-<div class="bottom"><div class="stat">Unternehmen &amp; Privatpersonen · Stand ${stand}</div><div class="ogwahl"><div class="badge">Team Freiheit</div><div class="wahlsub">Am <b>20.09.</b> Team Freiheit wählen.</div></div></div>
+<div class="bottom"><div class="stat">Unternehmen &amp; Privatpersonen · Stand ${stand}</div><div class="wahl">Am 20.09. Team Freiheit wählen.</div></div>
 </body></html>`;
   const { chromium } = await import('playwright');
   const b = await chromium.launch();
