@@ -1,4 +1,4 @@
-<!-- redeploy-trigger: 31.07.2026 -->
+<!-- redeploy-trigger: 31.07.2026 dashes-og -->
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -6,6 +6,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#000000">
 <meta property="og:image" content="https://pleiteticker-mv.vercel.app/og-image.png">
+<meta property="og:image:width" content="2400">
+<meta property="og:image:height" content="1260">
+<meta property="og:image:type" content="image/png">
+<meta name="twitter:card" content="summary_large_image">
 <meta property="og:title" content="Pleiteticker MV – Team Freiheit">
 <meta property="og:description" content="Dokumentierte Insolvenzeröffnungen in MV seit Januar 2026 – Unternehmen &amp; Privatpersonen. Quelle: insolvenzbekanntmachungen.de">
 <meta property="og:url" content="https://pleiteticker-mv.vercel.app">
@@ -207,7 +211,7 @@ td.wert { font-weight:700; white-space:nowrap; }
 <div class="meta" style="margin-left:auto;margin-right:auto;">Stand: <span id="standDatum">–</span> · Nur Eröffnungen · Wöchentlich aktualisiert · Quelle: insolvenzbekanntmachungen.de</div>
 <div class="hero-cta">
 <a href="https://team-freiheit-mv.de/material" class="btn btn--hell" target="_blank" rel="noopener">Jetzt mitmachen</a>
-<div class="meta" style="margin-left:auto;margin-right:auto;">Werde Unterstützer — Material &amp; Aktionen</div>
+<div class="meta" style="margin-left:auto;margin-right:auto;">Werde Unterstützer – Material &amp; Aktionen</div>
 </div>
 <div class="meta hero-next" style="margin-left:auto;margin-right:auto;">Nächste Aktualisierung: Freitag Nachmittag</div>
 </div>
@@ -216,7 +220,7 @@ td.wert { font-weight:700; white-space:nowrap; }
 <!-- Diese Woche (weiß, editorial linksbündig) -->
 <section class="weiss">
 <div class="wrap">
-<p class="lead">Der Pleiteticker dokumentiert eröffnete Insolvenzverfahren in Mecklenburg-Vorpommern — Unternehmen wie Privatpersonen — Woche für Woche aus dem amtlichen Portal. Allein in KW&nbsp;<span id="kontextKw">30</span>: <span id="kontextAnzahl">25</span> neue Fälle. Zum Vergleich: Das Statistische Amt M-V zählte 2024 landesweit 2.456&nbsp;Insolvenzen.</p>
+<p class="lead">Der Pleiteticker dokumentiert eröffnete Insolvenzverfahren in Mecklenburg-Vorpommern – Unternehmen wie Privatpersonen – Woche für Woche aus dem amtlichen Portal. Allein in KW&nbsp;<span id="kontextKw">30</span>: <span id="kontextAnzahl">25</span> neue Fälle. Zum Vergleich: Das Statistische Amt M-V zählte 2024 landesweit 2.456&nbsp;Insolvenzen.</p>
 
 <div class="block">
 <div class="woche-kopf">
@@ -225,7 +229,7 @@ td.wert { font-weight:700; white-space:nowrap; }
 <span class="woche-kw" id="weekLabel">–</span>
 </div>
 <div class="faelle" id="weekCases"></div>
-<p class="meta tab-quelle">Vollständige Liste: <a class="textlink" href="https://neu.insolvenzbekanntmachungen.de" target="_blank" rel="noopener">insolvenzbekanntmachungen.de</a> — Bundesland MV, Gegenstand Eröffnungen.</p>
+<p class="meta tab-quelle">Vollständige Liste: <a class="textlink" href="https://neu.insolvenzbekanntmachungen.de" target="_blank" rel="noopener">insolvenzbekanntmachungen.de</a> – Bundesland MV, Gegenstand Eröffnungen.</p>
 </div>
 </div>
 </section>
@@ -234,7 +238,7 @@ td.wert { font-weight:700; white-space:nowrap; }
 <section class="weiss">
 <div class="wrap">
 <div class="block">
-<span class="label sec-label">Amtliche Einordnung — MV 2024, Statistisches Amt M-V</span>
+<span class="label sec-label">Amtliche Einordnung – MV 2024, Statistisches Amt M-V</span>
 <table>
 <tbody>
 <tr><td>Insolvenzen gesamt 2024</td><td class="wert">2.456</td></tr>
@@ -247,7 +251,7 @@ td.wert { font-weight:700; white-space:nowrap; }
 </div>
 
 <div class="block">
-<span class="label sec-label">Live erfasst — 2026, insolvenzbekanntmachungen.de</span>
+<span class="label sec-label">Live erfasst – 2026, insolvenzbekanntmachungen.de</span>
 <table>
 <tbody>
 <tr><td>Eröffnete Verfahren seit 01.01.2026</td><td class="wert"><span id="liveVerfahren">545</span></td></tr>
@@ -264,16 +268,16 @@ td.wert { font-weight:700; white-space:nowrap; }
 <!-- Schlaglichter (weiß) -->
 <section class="weiss">
 <div class="wrap">
-<span class="label sec-label">Schlaglichter — Große Insolvenzen 2026 in MV</span>
+<span class="label sec-label">Schlaglichter – Große Insolvenzen 2026 in MV</span>
 <div class="faelle" id="bigCaseList"></div>
-<p class="meta tab-quelle">Alle Verfahren: <a class="textlink" href="https://neu.insolvenzbekanntmachungen.de" target="_blank" rel="noopener">insolvenzbekanntmachungen.de</a> — Bundesland MV, Gegenstand Eröffnungen.</p>
+<p class="meta tab-quelle">Alle Verfahren: <a class="textlink" href="https://neu.insolvenzbekanntmachungen.de" target="_blank" rel="noopener">insolvenzbekanntmachungen.de</a> – Bundesland MV, Gegenstand Eröffnungen.</p>
 </div>
 </section>
 
 <!-- Branchen (weiß) -->
 <section class="weiss">
 <div class="wrap">
-<span class="label sec-label">Betroffene Branchen — MV 2024, Creditreform</span>
+<span class="label sec-label">Betroffene Branchen – MV 2024, Creditreform</span>
 <table>
 <thead><tr><th>Branche</th><th>Fälle 2024</th></tr></thead>
 <tbody>
@@ -291,7 +295,7 @@ td.wert { font-weight:700; white-space:nowrap; }
 <section class="weiss">
 <div class="wrap wrap-schmal">
 <h2 class="h2">MV verdient bessere Wirtschaftspolitik.</h2>
-<p class="text" style="margin-top:1.25rem;">Jede Insolvenz steht für Arbeitsplätze, Lebensleistungen und Familien in der Unsicherheit. Weniger Bürokratie, weniger Staat, mehr unternehmerische Freiheit — dafür tritt Team Freiheit zur Landtagswahl 2026 an.</p>
+<p class="text" style="margin-top:1.25rem;">Jede Insolvenz steht für Arbeitsplätze, Lebensleistungen und Familien in der Unsicherheit. Weniger Bürokratie, weniger Staat, mehr unternehmerische Freiheit – dafür tritt Team Freiheit zur Landtagswahl 2026 an.</p>
 <p style="margin-top:1.75rem;"><a href="https://www.team-freiheit.de" class="btn" target="_blank" rel="noopener">Mehr erfahren</a></p>
 </div>
 </section>
@@ -332,7 +336,7 @@ faelle: [
 { name: "Andricopoulos, Marios", ort: "Lüdersdorf", branche: "Regelinsolvenz" },
 { name: "Bilen, Yasemin", ort: "Schwerin", branche: "Privatinsolvenz" },
 { name: "Freh, Hussin", ort: "Neubrandenburg", branche: "Privatinsolvenz" },
-{ name: "Hinrichs, Kim Maria", ort: "Schwerin", branche: "Privatinsolvenz" }
+{ name: "Hinrichs, Kim Maria", ort: "Schwerin", branche: "Privatinsolvenz" },
 ]
 },
 
