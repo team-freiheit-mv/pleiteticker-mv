@@ -1,6 +1,6 @@
 # Pleiteticker MV – Aktenzeichen-Historie (Union-Zaehlung)
 # ANCHOR = bereits gezaehlte Verfahren aus aelteren, inzwischen vom Portal
-# ausgelaufenen Snapshots (nicht mehr einzeln enumerierbar). Seed-Stand 24.07.2026.
+# ausgelaufenen Snapshots (nicht mehr einzeln enumerierbar).
 ANCHOR: 382
 580 IK 472/26
 580 IK 469/26
@@ -165,3 +165,42 @@ ANCHOR: 382
 62 IN 730/25
 62 IN 666/25
 62 IN 511/25
+91 IN 257/26
+61a IK 388/26
+61a IN 342/26
+712 IK 429/26
+580 IK 518/26
+580 IN 489/26
+712 IK 415/26
+61a IN 85/24
+580 IN 505/26
+580 IK 503/26
+711 IK 434/26
+580 IK 484/26
+711 IK 420/26
+92 IK 314/26
+580 IN 422/26
+711 IK 431/26
+712 IK 376/26
+580 IN 477/26
+580 IK 486/26
+580 IK 432/26
+580 IK 473/26
+712 IK 416/26
+711 IK 421/26
+712 IK 418/26
+61a IK 389/26
+712 IK 402/26
+702 IN 356/26
+580 IK 502/26
+61a IK 296/26
+711 IK 422/26
+91 IK 366/26
+92 IK 376/26
+712 IK 430/26
+711 IK 433/26
+62 IN 399/26
+701 IN 183/26
+702 IN 163/26
+580 IK 506/26
+580 IK 495/26
