@@ -225,32 +225,39 @@ Union aller Läufe nach diesem Lauf: ${verfahren}
   const scraped = await scrape();
   const rows = scraped.map((r) => ({ ...r, az: normAz(r.az), ort: r.sitz || r.ort || '' }));
 
-  // Neu = heutige Aktenzeichen, die history.txt noch nicht kennt
+  // Gesamtzähler = Anker + Union ALLER je gesehenen Aktenzeichen (monoton, idempotent).
+  // history.txt hält auch Fälle, die inzwischen aus dem Portal-Fenster gelaufen sind.
   const union = new Set(hist);
   const seen = new Set();
-  const neu = [];
+  const uniqueRows = [];
   for (const r of rows) {
     if (seen.has(r.az)) continue;
     seen.add(r.az);
-    if (union.has(r.az)) continue;
     union.add(r.az);
-    neu.push({ name: r.name, ort: r.ort, branche: branche(r.az, r.register), datum: r.datum });
+    uniqueRows.push({ name: r.name, ort: r.ort, branche: branche(r.az, r.register), datum: r.datum });
   }
   const verfahren = anchor + union.size;
-  console.log('Neu seit letztem Lauf:', neu.length, '| verfahren:', verfahren);
 
   const parseD = (s) => { const [dd, mm, yy] = s.split('.'); return new Date(+yy, +mm - 1, +dd); };
-  neu.sort((a, b) => parseD(b.datum) - parseD(a.datum));
 
+  // "Diese Woche" = Veröffentlichungen mit Datum in der aktuellen ISO-Woche.
+  // Datumsbasiert statt "neu seit letztem Lauf" -> idempotent, egal wie oft pro Woche gelaufen wird.
   const kw = isoWeek(d);
-  const mo = mondayOf(d);
+  const mo = mondayOf(d); mo.setHours(0, 0, 0, 0);
+  const weekRows = uniqueRows
+    .filter((r) => { const rd = parseD(r.datum); return rd >= mo && rd <= d; })
+    .sort((a, b) => parseD(b.datum) - parseD(a.datum));
+  const recent = [...uniqueRows].sort((a, b) => parseD(b.datum) - parseD(a.datum));
+  console.log('verfahren:', verfahren, '| Diese Woche (nach Datum):', weekRows.length);
+
   const woche = {
     kw,
     label: `KW ${kw} · ${pad(mo.getDate())}.–${pad(d.getDate())}.${pad(d.getMonth() + 1)}.${d.getFullYear()}`,
-    anzahl: neu.length,
-    faelle: neu.slice(0, 12).map(({ name, ort, branche }) => ({ name, ort, branche })),
+    anzahl: weekRows.length,
+    faelle: weekRows.slice(0, 12).map(({ name, ort, branche }) => ({ name, ort, branche })),
   };
-  const ticker = neu.slice(0, 8).map(({ name, ort, branche }) => ({ name, ort, branche }));
+  const tickerSrc = weekRows.length ? weekRows : recent;
+  const ticker = tickerSrc.slice(0, 8).map(({ name, ort, branche }) => ({ name, ort, branche }));
 
   updateIndex(verfahren, stand, woche, ticker);
   await makeOg(verfahren, stand);
