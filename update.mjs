@@ -101,7 +101,7 @@ async function scrape() {
         const el = tr.querySelector(`span[id*="otx_${suffix}"]`);
         return el ? el.textContent.replace(/\s+/g, ' ').trim() : '';
       };
-      return { datum: g('datum'), az: g('azAkt'), gericht: g('Gericht'), name: g('schuldner'), sitz: g('sitz'), register: g('register') };
+      return { datum: g('datum'), az: g('azAkt'), gericht: g('Gericht'), name: g('schuldner'), sitz: g('Sitz'), register: g('register') };
     }).filter((r) => r.az)
   );
   await browser.close();
