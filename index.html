@@ -1,4 +1,4 @@
-<!-- redeploy-trigger: 31.07.2026 lean -->
+<!-- redeploy-trigger: 31.07.2026 nur-unternehmen -->
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -218,7 +218,7 @@ td.wert { font-weight:700; white-space:nowrap; }
 <!-- Diese Woche (weiß, editorial linksbündig) -->
 <section class="weiss">
 <div class="wrap">
-<p class="lead">Der Pleiteticker dokumentiert eröffnete Insolvenzverfahren in Mecklenburg-Vorpommern – Unternehmen wie Privatpersonen – Woche für Woche aus dem amtlichen Portal. Allein in KW&nbsp;<span id="kontextKw">30</span>: <span id="kontextAnzahl">25</span> neue Fälle. Zum Vergleich: Das Statistische Amt M-V zählte 2024 landesweit 2.456&nbsp;Insolvenzen.</p>
+<p class="lead">Der Pleiteticker dokumentiert eröffnete Insolvenzverfahren in Mecklenburg-Vorpommern – Unternehmen wie Privatpersonen – Woche für Woche aus dem amtlichen Portal. Namentlich gelistet werden nur Unternehmen. Zum Vergleich: Das Statistische Amt M-V zählte 2024 landesweit 2.456&nbsp;Insolvenzen.</p>
 
 <div class="block">
 <div class="woche-kopf">
@@ -226,7 +226,8 @@ td.wert { font-weight:700; white-space:nowrap; }
 <span class="woche-zahl-lbl">Neue Insolvenzeröffnungen</span>
 <span class="woche-kw" id="weekLabel">–</span>
 </div>
-<div class="faelle" id="weekCases"></div>
+<span class="label sec-label" style="margin:1.75rem 0 0;">Zuletzt gemeldete Unternehmen</span>
+<div class="faelle" id="weekCases" style="margin-top:1rem;"></div>
 <p class="meta tab-quelle">Vollständige Liste: <a class="textlink" href="https://neu.insolvenzbekanntmachungen.de" target="_blank" rel="noopener">insolvenzbekanntmachungen.de</a> – Bundesland MV, Gegenstand Eröffnungen.</p>
 </div>
 </div>
@@ -267,18 +268,8 @@ woche: {
 label: "KW 31 · 27.–31.07.2026",
 anzahl: 39,
 faelle: [
-{ name: "Gutsche, Manuela", ort: "Greifswald", branche: "Regelinsolvenz" },
-{ name: "Handke, Kevin", ort: "Neubukow", branche: "Privatinsolvenz" },
 { name: "Hanse Ladenbau GmbH", ort: "Kavelstorf", branche: "Unternehmen" },
-{ name: "Jesse, Ronald", ort: "Malchin", branche: "Privatinsolvenz" },
-{ name: "Neumann, Antonia", ort: "Schönberg", branche: "Privatinsolvenz" },
-{ name: "Shabanov, Orlin Radostinov", ort: "Schwerin", branche: "Regelinsolvenz" },
-{ name: "Steffens, Melanie", ort: "Mirow", branche: "Privatinsolvenz" },
-{ name: "The Wedding Loft GmbH & Co. KG", ort: "Rostock", branche: "Unternehmen" },
-{ name: "Andricopoulos, Marios", ort: "Lüdersdorf", branche: "Regelinsolvenz" },
-{ name: "Bilen, Yasemin", ort: "Schwerin", branche: "Privatinsolvenz" },
-{ name: "Freh, Hussin", ort: "Neubrandenburg", branche: "Privatinsolvenz" },
-{ name: "Hinrichs, Kim Maria", ort: "Schwerin", branche: "Privatinsolvenz" },
+{ name: "The Wedding Loft GmbH & Co. KG", ort: "Rostock", branche: "Unternehmen" }
 ]
 },
 
@@ -297,13 +288,7 @@ bigFaelle: [
 ],
 
 ticker: [
-{ name: "Gutsche, Manuela", ort: "Greifswald", branche: "Regelinsolvenz" },
-{ name: "Handke, Kevin", ort: "Neubukow", branche: "Privatinsolvenz" },
 { name: "Hanse Ladenbau GmbH", ort: "Kavelstorf", branche: "Unternehmen" },
-{ name: "Jesse, Ronald", ort: "Malchin", branche: "Privatinsolvenz" },
-{ name: "Neumann, Antonia", ort: "Schönberg", branche: "Privatinsolvenz" },
-{ name: "Shabanov, Orlin Radostinov", ort: "Schwerin", branche: "Regelinsolvenz" },
-{ name: "Steffens, Melanie", ort: "Mirow", branche: "Privatinsolvenz" },
 { name: "The Wedding Loft GmbH & Co. KG", ort: "Rostock", branche: "Unternehmen" }
 ]
 };
@@ -344,8 +329,6 @@ function renderDerived() {
 	const kw = kwNummer(DATA.woche.label);
 	document.getElementById('standDatum').textContent = DATA.stand;
 	document.getElementById('eyebrow').textContent = 'Mecklenburg-Vorpommern · 01.01.2026 – ' + DATA.stand;
-	document.getElementById('kontextKw').textContent = kw;
-	document.getElementById('kontextAnzahl').textContent = DATA.woche.anzahl;
 }
 
 renderDerived();

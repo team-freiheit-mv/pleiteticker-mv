@@ -240,24 +240,25 @@ Union aller Läufe nach diesem Lauf: ${verfahren}
 
   const parseD = (s) => { const [dd, mm, yy] = s.split('.'); return new Date(+yy, +mm - 1, +dd); };
 
-  // "Diese Woche" = Veröffentlichungen mit Datum in der aktuellen ISO-Woche.
-  // Datumsbasiert statt "neu seit letztem Lauf" -> idempotent, egal wie oft pro Woche gelaufen wird.
+  // "Diese Woche" = Veröffentlichungen mit Datum in der aktuellen ISO-Woche (idempotent).
+  // Namentlich gelistet werden NUR Unternehmen (Register vorhanden). Privatpersonen zählen
+  // in den Gesamtzähler mit, werden aber aus Persönlichkeitsschutz nicht namentlich genannt.
   const kw = isoWeek(d);
   const mo = mondayOf(d); mo.setHours(0, 0, 0, 0);
-  const weekRows = uniqueRows
-    .filter((r) => { const rd = parseD(r.datum); return rd >= mo && rd <= d; })
-    .sort((a, b) => parseD(b.datum) - parseD(a.datum));
-  const recent = [...uniqueRows].sort((a, b) => parseD(b.datum) - parseD(a.datum));
-  console.log('verfahren:', verfahren, '| Diese Woche (nach Datum):', weekRows.length);
+  const inWeek = (r) => { const rd = parseD(r.datum); return rd >= mo && rd <= d; };
+  const istUnternehmen = (r) => r.branche === 'Unternehmen';
+  const weekAll = uniqueRows.filter(inWeek);
+  const weekCompanies = weekAll.filter(istUnternehmen).sort((a, b) => parseD(b.datum) - parseD(a.datum));
+  const recentCompanies = uniqueRows.filter(istUnternehmen).sort((a, b) => parseD(b.datum) - parseD(a.datum));
+  console.log('verfahren:', verfahren, '| Woche gesamt:', weekAll.length, '| davon Unternehmen:', weekCompanies.length);
 
   const woche = {
     kw,
     label: `KW ${kw} · ${pad(mo.getDate())}.–${pad(d.getDate())}.${pad(d.getMonth() + 1)}.${d.getFullYear()}`,
-    anzahl: weekRows.length,
-    faelle: weekRows.slice(0, 12).map(({ name, ort, branche }) => ({ name, ort, branche })),
+    anzahl: weekAll.length,
+    faelle: recentCompanies.slice(0, 10).map(({ name, ort, branche }) => ({ name, ort, branche })),
   };
-  const tickerSrc = weekRows.length ? weekRows : recent;
-  const ticker = tickerSrc.slice(0, 8).map(({ name, ort, branche }) => ({ name, ort, branche }));
+  const ticker = recentCompanies.slice(0, 8).map(({ name, ort, branche }) => ({ name, ort, branche }));
 
   updateIndex(verfahren, stand, woche, ticker);
   await makeOg(verfahren, stand);
@@ -274,7 +275,7 @@ MV braucht Veränderung. 💪
 
 Teile das mit jemandem, der das noch nicht weiß 🔁
 🔗 https://pleiteticker-mv.vercel.app/?v=kw${kw}`;
-  const summary = `## Pleiteticker-Update ${stand}${DRY ? ' (DRY_RUN)' : ''}\n\n- verfahren gesamt: **${verfahren}**\n- Neu diese Woche (KW ${kw}): **${woche.anzahl}**\n\n### WhatsApp-Text\n\n\`\`\`\n${wa}\n\`\`\`\n`;
+  const summary = `## Pleiteticker-Update ${stand}${DRY ? ' (DRY_RUN)' : ''}\n\n- verfahren gesamt: **${verfahren}**\n- Neu diese Woche (KW ${kw}): **${woche.anzahl}** (Unternehmen: ${weekCompanies.length})\n\n### WhatsApp-Text\n\n\`\`\`\n${wa}\n\`\`\`\n`;
   if (process.env.GITHUB_STEP_SUMMARY) fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, summary);
   console.log(summary);
 })().catch((e) => { console.error('FEHLER:', e); process.exit(1); });
