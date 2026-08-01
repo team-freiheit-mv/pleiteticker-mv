@@ -1,4 +1,4 @@
-<!-- redeploy-trigger: 31.07.2026 dashes-og -->
+<!-- redeploy-trigger: 31.07.2026 lean -->
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -189,7 +189,6 @@ td.wert { font-weight:700; white-space:nowrap; }
 <div class="kopf-sub">Insolvenzmonitor Mecklenburg-Vorpommern</div>
 </div>
 </div>
-<a href="https://www.team-freiheit.de" class="btn btn--hell" target="_blank" rel="noopener">Welches Team bist du?</a>
 </div>
 </header>
 
@@ -213,7 +212,6 @@ td.wert { font-weight:700; white-space:nowrap; }
 <a href="https://team-freiheit-mv.de/material" class="btn btn--hell" target="_blank" rel="noopener">Jetzt mitmachen</a>
 <div class="meta" style="margin-left:auto;margin-right:auto;">Werde Unterstützer – Material &amp; Aktionen</div>
 </div>
-<div class="meta hero-next" style="margin-left:auto;margin-right:auto;">Nächste Aktualisierung: Freitag Nachmittag</div>
 </div>
 </section>
 
@@ -234,37 +232,6 @@ td.wert { font-weight:700; white-space:nowrap; }
 </div>
 </section>
 
-<!-- Einordnung (weiß) -->
-<section class="weiss">
-<div class="wrap">
-<div class="block">
-<span class="label sec-label">Amtliche Einordnung – MV 2024, Statistisches Amt M-V</span>
-<table>
-<tbody>
-<tr><td>Insolvenzen gesamt 2024</td><td class="wert">2.456</td></tr>
-<tr><td>Veränderung gegenüber 2023</td><td class="wert">+3,1 %</td></tr>
-<tr><td>davon Unternehmen</td><td class="wert">273</td></tr>
-<tr><td>davon Verbraucher</td><td class="wert">1.787</td></tr>
-<tr><td>Forderungen (Unternehmen)</td><td class="wert">~226 Mio €</td></tr>
-</tbody>
-</table>
-</div>
-
-<div class="block">
-<span class="label sec-label">Live erfasst – 2026, insolvenzbekanntmachungen.de</span>
-<table>
-<tbody>
-<tr><td>Eröffnete Verfahren seit 01.01.2026</td><td class="wert"><span id="liveVerfahren">545</span></td></tr>
-<tr><td>Diese Woche (<span id="liveWocheKw">KW 30</span>)</td><td class="wert"><span id="liveWoche">25</span></td></tr>
-<tr><td>Erfasst</td><td class="wert">Unternehmen &amp; Privat</td></tr>
-<tr><td>Stärkste Branche (2024)</td><td class="wert">Baugewerbe</td></tr>
-<tr><td>Aktualisierung</td><td class="wert">wöchentlich</td></tr>
-</tbody>
-</table>
-</div>
-</div>
-</section>
-
 <!-- Schlaglichter (weiß) -->
 <section class="weiss">
 <div class="wrap">
@@ -274,35 +241,10 @@ td.wert { font-weight:700; white-space:nowrap; }
 </div>
 </section>
 
-<!-- Branchen (weiß) -->
-<section class="weiss">
-<div class="wrap">
-<span class="label sec-label">Betroffene Branchen – MV 2024, Creditreform</span>
-<table>
-<thead><tr><th>Branche</th><th>Fälle 2024</th></tr></thead>
-<tbody>
-<tr><td>Baugewerbe</td><td class="wert">53</td></tr>
-<tr><td>Gastgewerbe</td><td class="wert">42</td></tr>
-<tr><td>Handel</td><td class="wert">32</td></tr>
-<tr><td>Landwirtschaft</td><td class="wert">21</td></tr>
-<tr><td>Dienstleistung</td><td class="wert">16</td></tr>
-</tbody>
-</table>
-</div>
-</section>
-
-<!-- CTA (weiß, editorial) -->
-<section class="weiss">
-<div class="wrap wrap-schmal">
-<h2 class="h2">MV verdient bessere Wirtschaftspolitik.</h2>
-<p class="text" style="margin-top:1.25rem;">Jede Insolvenz steht für Arbeitsplätze, Lebensleistungen und Familien in der Unsicherheit. Weniger Bürokratie, weniger Staat, mehr unternehmerische Freiheit – dafür tritt Team Freiheit zur Landtagswahl 2026 an.</p>
-<p style="margin-top:1.75rem;"><a href="https://www.team-freiheit.de" class="btn" target="_blank" rel="noopener">Mehr erfahren</a></p>
-</div>
-</section>
-
-<!-- Wahlaufruf (schwarze Vollfläche) -->
+<!-- Wahlaufruf (schwarze Vollfläche) – zugleich Abschluss-Botschaft -->
 <section class="schwarz">
 <div class="wrap wahl">
+<p class="meta" style="max-width:44ch;margin:0 auto;">Jede Insolvenz steht für Arbeitsplätze, Lebensleistungen und Familien. MV verdient eine bessere Wirtschaftspolitik.</p>
 <p class="claim">Am 20.09. Team Freiheit wählen.</p>
 <span class="wortmarke">Team Freiheit</span>
 </div>
@@ -404,9 +346,6 @@ function renderDerived() {
 	document.getElementById('eyebrow').textContent = 'Mecklenburg-Vorpommern · 01.01.2026 – ' + DATA.stand;
 	document.getElementById('kontextKw').textContent = kw;
 	document.getElementById('kontextAnzahl').textContent = DATA.woche.anzahl;
-	document.getElementById('liveVerfahren').textContent = DATA.verfahren.toLocaleString('de-DE');
-	document.getElementById('liveWoche').textContent = DATA.woche.anzahl;
-	document.getElementById('liveWocheKw').textContent = 'KW ' + kw;
 }
 
 renderDerived();
