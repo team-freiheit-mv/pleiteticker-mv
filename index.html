@@ -22,14 +22,14 @@
 	font-family: Montserrat;
 	font-style: normal;
 	font-weight: 400 700;
-	font-display: swap;
+	font-display: block;
 	src: url(montserrat-latin.woff2) format('woff2');
 }
 @font-face {
 	font-family: Montserrat;
 	font-style: normal;
 	font-weight: 900;
-	font-display: swap;
+	font-display: block;
 	src: url(montserrat-latin.woff2) format('woff2');
 }
 
@@ -352,7 +352,8 @@ window.addEventListener('load', ()=>{
 	buildTicker();
 	renderWeek();
 	renderBigCases();
-	setTimeout(()=>{ animateCounter(document.getElementById('mainCtr'), DATA.verfahren); }, 300);
+	const zaehlerStart = ()=> setTimeout(()=>{ animateCounter(document.getElementById('mainCtr'), DATA.verfahren); }, 300);
+	if (document.fonts && document.fonts.ready) document.fonts.ready.then(zaehlerStart); else zaehlerStart();
 });
 </script>
 </body>
