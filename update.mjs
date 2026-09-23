@@ -182,7 +182,7 @@ body{font-family:Montserrat,system-ui,Arial,sans-serif;background:#000;color:#ff
 </style></head><body>
 <div class="top"><span class="wm">Team Freiheit</span><div><div class="t1">Pleiteticker MV</div><div class="t2">Insolvenzmonitor Mecklenburg-Vorpommern</div></div></div>
 <div><div class="eyebrow">Mecklenburg-Vorpommern · 2026</div><div class="ctr"><div class="num">${verfahren}</div><div class="plus">+</div></div><div class="lbl">Eröffnete Insolvenzverfahren seit Jahresbeginn</div></div>
-<div class="bottom"><div class="stat">Unternehmen &amp; Privatpersonen · Stand ${stand}</div><div class="wahl">Am 20.09. Team Freiheit wählen.</div></div>
+<div class="bottom"><div class="stat">Unternehmen &amp; Privatpersonen · Stand ${stand}</div><div class="wahl">Weiter zu Team Freiheit MV</div></div>
 </body></html>`;
   const { chromium } = await import('playwright');
   const b = await chromium.launch();
